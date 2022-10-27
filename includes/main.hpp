@@ -16,15 +16,20 @@ namespace trk {
     VrSystem app{};
 
     extern "C" {
+        //api control
         DllExport void startTracking();
 
         DllExport void stopTracking();
 
+        //getters and setters
+        DllExport Vector3 getPlayArea();
+
+        //testing
         DllExport Vector3 getPositionsForTracker(int trackerID);
 
         DllExport Vector3 testMovement(float t, int r);
 
-        DllExport int testTrackedDeviceIndex();
+        DllExport int getNumberOfTrackers();
 
         DllExport int test();
     }

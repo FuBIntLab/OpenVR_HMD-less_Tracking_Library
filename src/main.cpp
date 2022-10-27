@@ -20,11 +20,15 @@ trk::Vector3 trk::testMovement(float t, int r) {
     return app.test(t,r);
 }
 
-int trk::testTrackedDeviceIndex() {
-    return app.testTrackedDevice();
+int trk::getNumberOfTrackers() {
+    return app.getNumberOfTrackers();
 }
 
 int trk::test() {
     return 420;
+}
+
+trk::Vector3 trk::getPlayArea() {
+    return app.getPlayArea();
 }
 
