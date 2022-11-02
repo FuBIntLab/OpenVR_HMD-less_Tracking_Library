@@ -7,6 +7,9 @@
 namespace trk {
     //api control
     void VrSystem::initVrSystem() {
+
+        debug.startDebugOutput();
+
         vr::HmdError initErr;
         vrSystem = vr::VR_Init(
                 &initErr,
@@ -32,6 +35,7 @@ namespace trk {
                 baseStationsIndexes.push_back(index);
             }
         }
+        std::cout << "hello " << std::endl;
     }
 
     void VrSystem::shutdownVrSystem() {
@@ -39,6 +43,7 @@ namespace trk {
         trackersDetected = 0;
         trackerIndexes.clear();
         baseStationsIndexes.clear();
+        debug.stopDebugOutput();
         vr::VR_Shutdown();
     }
 

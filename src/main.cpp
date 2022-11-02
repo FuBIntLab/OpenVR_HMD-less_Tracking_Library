@@ -13,22 +13,12 @@ void trk::stopTracking() {
 }
 
 trk::Vector3 trk::getPositionsForTracker(int trackerID) {
-    return Vector3{1.3,1.3,1.3};
+    return Vector3{(float)trackerID,0.0,0.0};
 }
 
 trk::Vector3 trk::testMovement(float t, int r) {
     return app.test(t,r);
 }
 
-int trk::getNumberOfTrackers() {
-    return app.getNumberOfTrackers();
-}
 
-int trk::test() {
-    return 420;
-}
-
-trk::Vector3 trk::getPlayArea() {
-    return app.getPlayArea();
-}
 

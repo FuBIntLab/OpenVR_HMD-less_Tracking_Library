@@ -23,18 +23,19 @@ namespace trk {
         //TODO some kind of setup functions
 
         //getters ----------
-        DllExport Vector3 getPlayArea();
+        DllExport int getNumberOfTrackers() {return app.getNumberOfTrackers();}
+
+        DllExport int getNumberOfBaseStations() {return app.getNumberOfBaseStations();}
+
+        DllExport Vector3 getPlayArea() {return app.getPlayArea();}
+
+        DllExport bool verifyPlayArea(int minBaseStations) {return app.isValidSetUp(minBaseStations);}
 
         //testing ------------
         DllExport Vector3 getPositionsForTracker(int trackerID);
 
         DllExport Vector3 testMovement(float t, int r);
 
-        DllExport int getNumberOfTrackers();
-
-        DllExport int getNumberOfBaseStations();
-
-        DllExport int test();
     }
 
 }

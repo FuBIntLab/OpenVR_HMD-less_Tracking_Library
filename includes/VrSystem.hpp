@@ -4,6 +4,7 @@
 #pragma once
 
 #include "../openvr/includes/openvr.h"
+#include "../includes/debug.hpp"
 
 #include <iostream>
 #include <cmath>
@@ -24,6 +25,8 @@ namespace trk {
 
         std::vector<uint32_t> trackerIndexes;
         std::vector<uint32_t> baseStationsIndexes;
+
+        Debug debug;
 
         int trackersDetected;
         int baseStationsDetected;
