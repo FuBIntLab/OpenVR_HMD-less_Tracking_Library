@@ -4,8 +4,11 @@
 #pragma once
 
 #include "../openvr/includes/openvr.h"
+
 #include <iostream>
 #include <cmath>
+#include <vector>
+
 
 namespace trk {
 
@@ -18,8 +21,12 @@ namespace trk {
     class VrSystem{
         vr::IVRSystem *vrSystem;
         vr::IVRChaperone *chaperone;
-        bool trackerIndexes[vr::k_unMaxTrackedDeviceCount];
+
+        std::vector<uint32_t> trackerIndexes;
+        std::vector<uint32_t> baseStationsIndexes;
+
         int trackersDetected;
+        int baseStationsDetected;
         float playAreaX;
         float playAreaY;
     public:
@@ -34,6 +41,8 @@ namespace trk {
         Vector3 getPlayArea();
         void getPositionFromTracker(int id);
         int getNumberOfTrackers(){return trackersDetected;}
+        int getNumberOfBaseStations(){return baseStationsDetected;}
+        bool isValidSetUp(int minBaseStations);
 
         //testing functions
         Vector3 test(float time, int radius);

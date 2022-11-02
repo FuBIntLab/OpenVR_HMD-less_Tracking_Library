@@ -19,20 +19,26 @@ namespace trk {
         chaperone = vr::VRChaperone();
         chaperone->GetPlayAreaSize(&playAreaX, &playAreaY);
 
-        trackersDetected = 0;
-        //Searches fot trackers in the system
+
+        //Searches fot trackers in the system from hmd 0 to maxTrackedDeviceCount and saves the indexes to a vector
         for (uint32_t index = vr::k_unTrackedDeviceIndex_Hmd; index< vr::k_unMaxTrackedDeviceCount; index++) {
             vr::TrackedDeviceClass trackedClass = vrSystem->GetTrackedDeviceClass(index);
-            trackerIndexes[index] = false;
             if(trackedClass == vr::TrackedDeviceClass::TrackedDeviceClass_GenericTracker){
-                trackerIndexes[index] = true;
                 trackersDetected++;
+                trackerIndexes.push_back(index);
+            }
+            if(trackedClass == vr::TrackedDeviceClass::TrackedDeviceClass_TrackingReference){
+                baseStationsDetected++;
+                baseStationsIndexes.push_back(index);
             }
         }
-
     }
 
     void VrSystem::shutdownVrSystem() {
+        //resetting values and shutting down vrSystem
+        trackersDetected = 0;
+        trackerIndexes.clear();
+        baseStationsIndexes.clear();
         vr::VR_Shutdown();
     }
 
@@ -45,6 +51,15 @@ namespace trk {
 
     }
 
+    bool VrSystem::isValidSetUp(int minBaseStations) {
+        /*
+         * Returns true if the given number of base stations are detected
+         */
+        if(baseStationsDetected >= minBaseStations){
+            return true;
+        }
+        return false;
+    }
 
     //testing functions
     Vector3 VrSystem::test(float time, int radius) {
