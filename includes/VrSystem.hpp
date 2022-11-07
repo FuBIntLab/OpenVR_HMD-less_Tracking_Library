@@ -20,6 +20,7 @@ namespace trk {
     };
 
     class VrSystem{
+    private:
         vr::IVRSystem *vrSystem;
         vr::IVRChaperone *chaperone;
 
