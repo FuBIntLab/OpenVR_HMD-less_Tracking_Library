@@ -5,23 +5,14 @@
 #include "../includes/debug.hpp"
 
 namespace trk{
-    void Debug::startDebugOutput() {
-        ZeroMemory(&si,sizeof(si));
-        si.cb = sizeof(si);
-        ZeroMemory(&pi,sizeof(pi));
+    void Debug::Log(std::string msg) {
+        std::ofstream out("output.log");
+        std::streambuf *coutbuf = std::cout.rdbuf();
+        std::cout.rdbuf(out.rdbuf());
 
+        std::cout << msg << "\n";
 
-
-        CreateProcess(CMDPATH,
-                      NULL,
-                      NULL,
-                      NULL,
-                      FALSE,
-                      CREATE_NEW_CONSOLE,
-                      NULL,
-                      NULL,
-                      &si,
-                      &pi);
+        std::cout.rdbuf(coutbuf);
     }
 
     void Debug::stopDebugOutput(){

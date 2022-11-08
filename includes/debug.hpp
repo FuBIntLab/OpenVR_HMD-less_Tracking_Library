@@ -7,6 +7,9 @@
 #include <windows.h>
 #include <stdio.h>
 #include <tchar.h>
+#include <string>
+#include <iostream>
+#include <fstream>
 
 #define CMDPATH "C:\\Windows\\System32\\cmd.exe"
 
@@ -17,11 +20,12 @@ namespace trk{
         //attributes -----
         STARTUPINFO si;
         PROCESS_INFORMATION pi;
-
+        SECURITY_ATTRIBUTES sa;
+        HANDLE hFile;
         //methods --------
         Debug(){}
         ~Debug(){}
-        void startDebugOutput();
+        void Log(std::string msg);
         void stopDebugOutput();
     private:
 

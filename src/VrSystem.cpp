@@ -8,7 +8,7 @@ namespace trk {
     //api control
     void VrSystem::initVrSystem() {
 
-        debug.startDebugOutput();
+        debug.Log("wassup");
 
         vr::HmdError initErr;
         vrSystem = vr::VR_Init(
