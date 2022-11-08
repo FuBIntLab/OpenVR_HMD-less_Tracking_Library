@@ -18,12 +18,10 @@ namespace trk{
     class Debug{
     public:
         //attributes -----
-        STARTUPINFO si;
-        PROCESS_INFORMATION pi;
-        SECURITY_ATTRIBUTES sa;
-        HANDLE hFile;
+        std::ofstream myFile;
+
         //methods --------
-        Debug(){}
+        Debug();
         ~Debug(){}
         void Log(std::string msg);
         void stopDebugOutput();

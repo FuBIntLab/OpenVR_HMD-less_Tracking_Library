@@ -9,6 +9,7 @@ namespace trk {
     void VrSystem::initVrSystem() {
 
         debug.Log("wassup");
+        debug.Log("what is this");
 
         vr::HmdError initErr;
         vrSystem = vr::VR_Init(
