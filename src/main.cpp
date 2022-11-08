@@ -12,8 +12,8 @@ void trk::stopTracking() {
     app.shutdownVrSystem();
 }
 
-trk::Vector3 trk::getPositionsForTracker(int trackerID) {
-    return Vector3{(float)trackerID,0.0,0.0};
+void trk::getPositionsForTracker() {
+    app.getPositionFromTracker();
 }
 
 trk::Vector3 trk::testMovement(float t, int r) {

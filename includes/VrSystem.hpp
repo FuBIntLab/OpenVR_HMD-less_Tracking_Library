@@ -33,6 +33,11 @@ namespace trk {
         int baseStationsDetected;
         float playAreaX;
         float playAreaY;
+
+        vr::HmdVector3_t getPositionFromPose(vr::TrackedDevicePose_t pose);
+
+        //testing functions
+        void printPoseToDebug(vr::HmdVector3_t pos);
     public:
         VrSystem(){};
         ~VrSystem(){};
@@ -43,7 +48,7 @@ namespace trk {
 
         //getters & setters
         Vector3 getPlayArea();
-        void getPositionFromTracker(int id);
+        void getPositionFromTracker();
         int getNumberOfTrackers(){return trackersDetected;}
         int getNumberOfBaseStations(){return baseStationsDetected;}
         bool isValidSetUp(int minBaseStations);

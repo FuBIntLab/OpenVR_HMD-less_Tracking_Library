@@ -32,7 +32,7 @@ namespace trk {
         DllExport bool verifyPlayArea(int minBaseStations) {return app.isValidSetUp(minBaseStations);}
 
         //testing ------------
-        DllExport Vector3 getPositionsForTracker(int trackerID);
+        DllExport void getPositionsForTracker();
 
         DllExport Vector3 testMovement(float t, int r);
 
