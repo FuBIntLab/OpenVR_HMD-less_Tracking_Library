@@ -5,6 +5,7 @@
 
 #include "../openvr/includes/openvr.h"
 #include "../includes/debug.hpp"
+#include "../includes/structs.hpp"
 
 #include <iostream>
 #include <cmath>
@@ -12,13 +13,6 @@
 
 
 namespace trk {
-
-    struct Vector3{
-        float x;
-        float y;
-        float z;
-    };
-
     class VrSystem{
     private:
         vr::IVRSystem *vrSystem;
