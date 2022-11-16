@@ -31,7 +31,7 @@ namespace trk {
 
         DllExport Vector3 getPlayArea() {return app.getPlayArea();}
 
-        DllExport bool verifyPlayArea(int minBaseStations) {return app.isValidSetUp(minBaseStations);}
+        DllExport bool verifySetup() {return app.isValidSetUp();}
 
         //testing ------------
         DllExport void getPositionsForTracker();

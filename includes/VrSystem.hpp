@@ -48,7 +48,7 @@ namespace trk {
         void updatePositions();
         int getNumberOfTrackers(){return trackersDetected;}
         int getNumberOfBaseStations(){return baseStationsDetected;}
-        bool isValidSetUp(int minBaseStations);
+        bool isValidSetUp();
 
         //testing functions
         Vector3 test(float time, int radius);

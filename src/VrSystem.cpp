@@ -89,7 +89,7 @@ namespace trk {
 
     }
 
-    bool VrSystem::isValidSetUp(int minBaseStations) {
+    bool VrSystem::isValidSetUp() {
         /*
          * Returns true if the given number of base stations are detected
          */
