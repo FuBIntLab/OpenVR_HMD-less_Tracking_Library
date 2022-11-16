@@ -4,8 +4,8 @@
 
 #include "../includes/main.hpp"
 
-void trk::startTracking() {
-    app.initVrSystem();
+void trk::startTracking(int numberOfPlayers, int numberOfBaseStations) {
+    app.initVrSystem(numberOfPlayers, numberOfBaseStations);
 }
 
 void trk::stopTracking() {
@@ -13,12 +13,14 @@ void trk::stopTracking() {
 }
 
 void trk::getPositionsForTracker() {
-    app.getPositionFromTracker();
+    app.updatePositions();
 }
 
+/*
 trk::Vector3 trk::testMovement(float t, int r) {
     return app.test(t,r);
 }
+ */
 
 
 

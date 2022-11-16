@@ -17,9 +17,11 @@ namespace trk {
 
     extern "C" {
         //api control --------------
-        DllExport void startTracking();
+        DllExport void startTracking(int numberOfPlayers, int numberOfBaseStations);
 
         DllExport void stopTracking();
+
+        DllExport void updatePositions(){};
         //TODO some kind of setup functions
 
         //getters ----------
@@ -34,7 +36,8 @@ namespace trk {
         //testing ------------
         DllExport void getPositionsForTracker();
 
-        DllExport Vector3 testMovement(float t, int r);
+        //DllExport Vector3 testMovement(float t, int r);
+
 
     }
 

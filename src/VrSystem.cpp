@@ -6,10 +6,10 @@
 
 namespace trk {
     //api control
-    void VrSystem::initVrSystem() {
-
+    void VrSystem::initVrSystem(int numberOfPlayers, int numberOfBases) {
         debug.Log("VrSystem ON:");
-
+        nTrackers = numberOfPlayers;
+        nBaseStations = numberOfBases;
 
         vr::HmdError initErr;
         vrSystem = vr::VR_Init(
@@ -29,12 +29,17 @@ namespace trk {
         for (uint32_t index = vr::k_unTrackedDeviceIndex_Hmd; index< vr::k_unMaxTrackedDeviceCount; index++) {
             vr::TrackedDeviceClass trackedClass = vrSystem->GetTrackedDeviceClass(index);
             if(trackedClass == vr::TrackedDeviceClass::TrackedDeviceClass_GenericTracker){
+                Tracker currentTracker{index,Vector3::zero()};
+                trackers.push_back(currentTracker);
+
+                //temp----
                 trackersDetected++;
                 trackerIndexes.push_back(index);
+                //--------
+
             }
             if(trackedClass == vr::TrackedDeviceClass::TrackedDeviceClass_TrackingReference){
                 baseStationsDetected++;
-                baseStationsIndexes.push_back(index);
             }
         }
         debug.Log("Tracker indexes:");
@@ -45,10 +50,16 @@ namespace trk {
 
     void VrSystem::shutdownVrSystem() {
         //resetting values and shutting down vrSystem
+        nTrackers = 0;
+        nBaseStations = 0;
         trackersDetected = 0;
         baseStationsDetected = 0;
+        trackers.clear();
+
+        //temp ---
         trackerIndexes.clear();
-        baseStationsIndexes.clear();
+        //--------
+
         debug.stopDebugOutput();
         vr::VR_Shutdown();
     }
@@ -58,7 +69,7 @@ namespace trk {
         return Vector3{playAreaX, 0, playAreaY};
     }
 
-    void VrSystem::getPositionFromTracker() {
+    void VrSystem::updatePositions() {
         vr::TrackedDevicePose_t pose;
         vr::VRControllerState_t controllerState;
         vr::HmdVector3_t position;
@@ -82,9 +93,10 @@ namespace trk {
         /*
          * Returns true if the given number of base stations are detected
          */
-        if(baseStationsDetected >= minBaseStations){
+        if(baseStationsDetected == nBaseStations && trackersDetected == nTrackers){
             return true;
         }
+        debug.Log("Check plugin configuration: Number of trackers or base stations are different from detected");
         return false;
     }
 
@@ -113,11 +125,5 @@ namespace trk {
         return Vector3{radius* cosf(time), 1.0f, radius* sinf(time)};
     }
 
-    int VrSystem::testTrackedDevice() {
-        vr::TrackedDeviceClass  trackedClass = vrSystem->GetTrackedDeviceClass(0);
-        if(trackedClass == vr::TrackedDeviceClass::TrackedDeviceClass_HMD) {
-            return 1;
-        }
-        return 0;
-    }
+
 } // trk

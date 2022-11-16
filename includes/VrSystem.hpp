@@ -15,11 +15,14 @@
 namespace trk {
     class VrSystem{
     private:
+        int nTrackers = 0;
+        int nBaseStations = 0;
+
         vr::IVRSystem *vrSystem;
         vr::IVRChaperone *chaperone;
 
+        std::vector<Tracker> trackers;
         std::vector<uint32_t> trackerIndexes;
-        std::vector<uint32_t> baseStationsIndexes;
 
         Debug debug;
 
@@ -37,19 +40,19 @@ namespace trk {
         ~VrSystem(){};
 
         //api control
-        void initVrSystem();
+        void initVrSystem(int numberOfPlayers, int numberOfBases);
         void shutdownVrSystem();
 
         //getters & setters
         Vector3 getPlayArea();
-        void getPositionFromTracker();
+        void updatePositions();
         int getNumberOfTrackers(){return trackersDetected;}
         int getNumberOfBaseStations(){return baseStationsDetected;}
         bool isValidSetUp(int minBaseStations);
 
         //testing functions
         Vector3 test(float time, int radius);
-        int testTrackedDevice();
+
     };
 
 
