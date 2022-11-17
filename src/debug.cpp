@@ -6,14 +6,18 @@
 
 namespace trk{
     Debug::Debug(){
-        myFile.open("output.log");
+        //TODO: DebugString
+        //myFile.open("output.log");
+        AllocConsole();
+        freopen("CONOUT$", "w",stdout);
     }
 
     void Debug::Log(std::string msg) {
-        myFile << msg <<"\n";
+        //myFile << msg <<"\n";
+        std::cout << msg << std::endl;
     }
 
     void Debug::stopDebugOutput(){
-        myFile.close();
+        //myFile.close();
     }
 }

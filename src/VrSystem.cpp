@@ -69,21 +69,21 @@ namespace trk {
         return Vector3{playAreaX, 0, playAreaY};
     }
 
-    void VrSystem::updatePositions() {
-        vr::TrackedDevicePose_t pose;
+    void VrSystem::updatePoses() {
+        vr::TrackedDevicePose_t poses[vr::k_unMaxTrackedDeviceCount];
         vr::VRControllerState_t controllerState;
         vr::HmdVector3_t position;
 
-        vrSystem->GetControllerStateWithPose(vr::TrackingUniverseStanding,
-                                             trackerIndexes[0],
-                                             &controllerState,
-                                             sizeof(controllerState),
-                                             &pose);
+        vrSystem->GetDeviceToAbsoluteTrackingPose(vr::TrackingUniverseOrigin::TrackingUniverseStanding,
+                                                  0,
+                                                  poses,
+                                                  vr::k_unMaxTrackedDeviceCount);
 
-        position = getPositionFromPose(pose);
+
+        position = getPositionFromPose(poses[1]);
         printPoseToDebug(position);
 
-        if(pose.bPoseIsValid){
+        if(poses[1].bPoseIsValid){
             debug.Log("Valid Pose");
         }
 

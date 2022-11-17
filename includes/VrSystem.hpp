@@ -45,7 +45,7 @@ namespace trk {
 
         //getters & setters
         Vector3 getPlayArea();
-        void updatePositions();
+        void updatePoses();
         int getNumberOfTrackers(){return trackersDetected;}
         int getNumberOfBaseStations(){return baseStationsDetected;}
         bool isValidSetUp();

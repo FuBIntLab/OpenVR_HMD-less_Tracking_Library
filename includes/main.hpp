@@ -21,7 +21,7 @@ namespace trk {
 
         DllExport void stopTracking();
 
-        DllExport void updatePositions(){};
+        DllExport void updatePositions(){ app.updatePoses();};
         //TODO some kind of setup functions
 
         //getters ----------

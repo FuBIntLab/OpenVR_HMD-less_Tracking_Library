@@ -13,7 +13,7 @@ void trk::stopTracking() {
 }
 
 void trk::getPositionsForTracker() {
-    app.updatePositions();
+    app.updatePoses();
 }
 
 /*
