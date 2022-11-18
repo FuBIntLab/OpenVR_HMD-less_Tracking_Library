@@ -71,6 +71,7 @@ namespace trk {
         vr::TrackedDevicePose_t poses[vr::k_unMaxTrackedDeviceCount];
         vr::VRControllerState_t controllerState;
         vr::HmdVector3_t position;
+        //TODO: Get position of all trackers
 
         vrSystem->GetDeviceToAbsoluteTrackingPose(vr::TrackingUniverseOrigin::TrackingUniverseStanding,
                                                   0,
@@ -107,6 +108,7 @@ namespace trk {
 
     //testing functions
     void VrSystem::printPoseToDebug(vr::HmdVector3_t pos) {
+        //TODO: Print position of all trackers with ids to identify them
         debugPrint("x: "+ std::to_string(pos.v[0])+
         " y: "+ std::to_string(pos.v[1])+
         " z: "+ std::to_string(pos.v[2])
