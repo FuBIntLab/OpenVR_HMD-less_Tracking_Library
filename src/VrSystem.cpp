@@ -7,7 +7,7 @@
 namespace trk {
     //api control
     void VrSystem::initVrSystem(int numberOfPlayers, int numberOfBases) {
-        debug.Log("VrSystem ON:");
+        debugPrint("VrSystem ON:");
         nTrackers = numberOfPlayers;
         nBaseStations = numberOfBases;
 
@@ -23,7 +23,7 @@ namespace trk {
         chaperone = vr::VRChaperone();
         chaperone->GetPlayAreaSize(&playAreaX, &playAreaY);
 
-        debug.Log("Play Area: ("+ std::to_string(playAreaX) + ", " + std::to_string(playAreaY) +"&d ) ");
+        debugPrint("Play Area: ("+ std::to_string(playAreaX) + " , " + std::to_string(playAreaY) +") ");
 
         //Searches fot trackers in the system from hmd 0 to maxTrackedDeviceCount and saves the indexes to a vector
         for (uint32_t index = vr::k_unTrackedDeviceIndex_Hmd; index< vr::k_unMaxTrackedDeviceCount; index++) {
@@ -42,9 +42,9 @@ namespace trk {
                 baseStationsDetected++;
             }
         }
-        debug.Log("Tracker indexes:");
+        debugPrint("Tracker indexes:");
         for(uint32_t i : trackerIndexes){
-            debug.Log("\t" + std::to_string(i));
+            debugPrint("\t" + std::to_string(i));
         }
     }
 
@@ -59,8 +59,6 @@ namespace trk {
         //temp ---
         trackerIndexes.clear();
         //--------
-
-        debug.stopDebugOutput();
         vr::VR_Shutdown();
     }
 
@@ -82,11 +80,6 @@ namespace trk {
 
         position = getPositionFromPose(poses[1]);
         printPoseToDebug(position);
-
-        if(poses[1].bPoseIsValid){
-            debug.Log("Valid Pose");
-        }
-
     }
 
     bool VrSystem::isValidSetUp() {
@@ -96,7 +89,7 @@ namespace trk {
         if(baseStationsDetected == nBaseStations && trackersDetected == nTrackers){
             return true;
         }
-        debug.Log("Check plugin configuration: Number of trackers or base stations are different from detected");
+        debugPrint("Check plugin configuration: Number of trackers or base stations are different from detected");
         return false;
     }
 
@@ -114,7 +107,7 @@ namespace trk {
 
     //testing functions
     void VrSystem::printPoseToDebug(vr::HmdVector3_t pos) {
-        debug.Log("x: "+ std::to_string(pos.v[0])+
+        debugPrint("x: "+ std::to_string(pos.v[0])+
         " y: "+ std::to_string(pos.v[1])+
         " z: "+ std::to_string(pos.v[2])
         );
