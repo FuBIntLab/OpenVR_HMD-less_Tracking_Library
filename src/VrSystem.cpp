@@ -67,7 +67,9 @@ namespace trk {
         return Vector3{playAreaX, 0, playAreaY};
     }
 
-    void VrSystem::updatePoses() {
+    void VrSystem::updatePoses(int size, float *data) {
+        std::vector<float> testing = {1.0f,2.0f,3.0f};
+
         vr::TrackedDevicePose_t poses[vr::k_unMaxTrackedDeviceCount];
         vr::VRControllerState_t controllerState;
         vr::HmdVector3_t position;
@@ -81,6 +83,7 @@ namespace trk {
 
         position = getPositionFromPose(poses[1]);
         printPoseToDebug(position);
+        memcpy(data, position.v, size);
     }
 
     bool VrSystem::isValidSetUp() {

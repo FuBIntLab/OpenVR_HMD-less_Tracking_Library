@@ -42,7 +42,7 @@ namespace trk {
 
         //getters & setters
         Vector3 getPlayArea();
-        void updatePoses();
+        void updatePoses(int size, float *data);
         int getNumberOfTrackers(){return trackersDetected;}
         int getNumberOfBaseStations(){return baseStationsDetected;}
         bool isValidSetUp();
