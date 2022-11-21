@@ -120,5 +120,16 @@ namespace trk {
         return Vector3{radius* cosf(time), 1.0f, radius* sinf(time)};
     }
 
+    void VrSystem::testPointers(int *size, double **data) {
+        std::vector<double> testing = {1.0f,2.0f,3.0f,4.0f};
+
+        *size = testing.size();
+        auto arrSize = (*size)*sizeof(double);
+        *data = static_cast<double*>(malloc(arrSize));
+        memcpy(*data,testing.data(),arrSize);
+    }
+    void VrSystem::freeArray(double **data){
+        free(data);
+    }
 
 } // trk

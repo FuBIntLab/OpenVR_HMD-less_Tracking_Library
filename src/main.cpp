@@ -12,15 +12,11 @@ void trk::stopTracking() {
     app.shutdownVrSystem();
 }
 
-void trk::getPositionsForTracker() {
-    app.updatePoses();
+void trk::pointerTest(int *size, double **data) {
+    app.testPointers(size,data);
 }
 
-/*
-trk::Vector3 trk::testMovement(float t, int r) {
-    return app.test(t,r);
-}
- */
+
 
 
 
