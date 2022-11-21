@@ -12,11 +12,14 @@ void trk::stopTracking() {
     app.shutdownVrSystem();
 }
 
-void trk::pointerTest(int *size, double **data) {
+void trk::pointerTest(int size, double *data) {
     app.testPointers(size,data);
 }
 
-
+int trk::getSize() {
+    //return app.getNumberOfTrackers() * 3;
+    return 3*sizeof(double);
+}
 
 
 

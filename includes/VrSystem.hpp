@@ -49,8 +49,8 @@ namespace trk {
 
         //testing functions
         Vector3 test(float time, int radius);
-        void testPointers(int *size, double **data);
-        void freeArray(double **data);
+        void testPointers(int size, double *data);
+
     };
 
 

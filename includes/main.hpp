@@ -29,10 +29,9 @@ namespace trk {
 
         DllExport int getNumberOfBaseStations() {return app.getNumberOfBaseStations();}
 
-        DllExport void pointerTest(int *size, double **data);
+        DllExport void pointerTest(int size, double *data);
         //DllExport Vector3 testMovement(float t, int r);
-        DllExport void freeArray(double **data) { app.freeArray(data);}
-
+        DllExport int getSize();
     }
 
 }
