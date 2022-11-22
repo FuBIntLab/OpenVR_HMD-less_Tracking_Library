@@ -21,16 +21,14 @@ namespace trk {
 
         DllExport void stopTracking();
 
-        DllExport void updatePositions(int size, float *data){ app.updatePoses(size, data);};
+        DllExport void updatePositions(int size, float *data);
         //TODO some kind of setup functions
 
         //getters ----------
-        DllExport int getNumberOfTrackers() {return app.getNumberOfTrackers();}
+        DllExport int getNumberOfTrackers();
 
-        DllExport int getNumberOfBaseStations() {return app.getNumberOfBaseStations();}
+        DllExport int getNumberOfBaseStations();
 
-        DllExport void pointerTest(int size, double *data);
-        //DllExport Vector3 testMovement(float t, int r);
         DllExport int getSize();
     }
 
