@@ -25,7 +25,7 @@ void trk::updatePositions(int size, float *data) {
 
 int trk::getSize() {
     //return app.getNumberOfTrackers() * 3;
-    return 3*sizeof(double);
+    return app.getSizeOfVector();
 }
 
 

@@ -68,10 +68,14 @@ namespace trk {
     }
 
     void VrSystem::updatePoses(int size, float *data) {
-        std::vector<float> testing = {1.0f,2.0f,3.0f};
-
+        /*
+         * in:
+         *      size: Size of the array to fill
+         *      *data: float array to fill
+         */
+        //poses array
         vr::TrackedDevicePose_t poses[vr::k_unMaxTrackedDeviceCount];
-        vr::VRControllerState_t controllerState;
+        std::vector<float> positions;
         vr::HmdVector3_t position;
         //TODO: Get position of all trackers
 
@@ -80,11 +84,21 @@ namespace trk {
                                                   poses,
                                                   vr::k_unMaxTrackedDeviceCount);
 
-
-        position = getPositionFromPose(poses[1]);
-        printPoseToDebug(position);
-        memcpy(data, position.v, size);
+        positions = getPositionsFromPose(poses);
+        memcpy(data, positions.data(), size);
     }
+
+    std::vector<float> VrSystem::getPositionsFromPose(vr::TrackedDevicePose_t *poses) {
+        std::vector<float> trackerPositions;
+        for(uint32_t i : trackerIndexes){
+            vr::HmdMatrix34_t mat = poses[i].mDeviceToAbsoluteTracking;
+            trackerPositions.push_back(mat.m[0][3]);
+            trackerPositions.push_back(mat.m[1][3]);
+            trackerPositions.push_back(mat.m[2][3]);
+        }
+        return trackerPositions;
+    }
+
 
     bool VrSystem::isValidSetUp() {
         /*
@@ -97,16 +111,8 @@ namespace trk {
         return false;
     }
 
-    vr::HmdVector3_t VrSystem::getPositionFromPose(vr::TrackedDevicePose_t pose) {
-        vr::HmdMatrix34_t mat = pose.mDeviceToAbsoluteTracking;
-
-        vr::HmdVector3_t vec;
-
-        vec.v[0] = mat.m[0][3];
-        vec.v[1] = mat.m[1][3];
-        vec.v[2] = mat.m[2][3];
-
-        return vec;
+    int VrSystem::getSizeOfVector() {
+        return nTrackers * 3 * sizeof(double);
     }
 
     //testing functions
@@ -117,16 +123,6 @@ namespace trk {
         " z: "+ std::to_string(pos.v[2])
         );
 
-    }
-
-    Vector3 VrSystem::test(float time, int radius) {
-        return Vector3{radius* cosf(time), 1.0f, radius* sinf(time)};
-    }
-
-    void VrSystem::testPointers(int size, double *data) {
-        std::vector<double> testing = {1.0f,2.0f,3.0f};
-
-        memcpy(data, testing.data(), size);
     }
 
 

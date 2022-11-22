@@ -22,7 +22,6 @@ namespace trk {
         DllExport void stopTracking();
 
         DllExport void updatePositions(int size, float *data);
-        //TODO some kind of setup functions
 
         //getters ----------
         DllExport int getNumberOfTrackers();

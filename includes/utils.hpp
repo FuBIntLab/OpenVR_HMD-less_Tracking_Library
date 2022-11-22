@@ -19,7 +19,7 @@ namespace trk{
     struct Tracker{
         uint32_t id;
         Vector3 pos;
-        void updatePosition(float x, float y, float z);
+        void setPosition(float x, float y, float z);
 
     };
 
