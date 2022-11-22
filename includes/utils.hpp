@@ -3,6 +3,7 @@
 //
 #pragma once
 
+#include <windows.h>
 #include <debugapi.h>
 #include <string>
 
@@ -18,7 +19,7 @@ namespace trk{
     struct Tracker{
         uint32_t id;
         Vector3 pos;
-        void updatePosition(Vector3 newPos);
+        void updatePosition(float x, float y, float z);
 
     };
 

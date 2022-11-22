@@ -8,8 +8,8 @@ namespace trk{
         return Vector3{0,0,0};
     }
 
-    void Tracker::updatePosition(trk::Vector3 newPos) {
-        pos = newPos;
+    void Tracker::updatePosition(float x, float y, float z) {
+        pos = Vector3{x,y,z};
     }
 
     void debugPrint(std::string msg){
