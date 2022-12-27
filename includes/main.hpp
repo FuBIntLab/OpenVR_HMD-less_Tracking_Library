@@ -21,14 +21,14 @@ namespace trk {
 
         DllExport void stopTracking();
 
-        DllExport void updatePositions(int size, float *data);
+        DllExport void updatePositions(int size, float *data, bool rotation);
 
         //getters ----------
         DllExport int getNumberOfTrackers();
 
         DllExport int getNumberOfBaseStations();
 
-        DllExport int getSize();
+        DllExport int getSize(bool rotation);
     }
 
 }

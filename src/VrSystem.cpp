@@ -76,8 +76,6 @@ namespace trk {
         //poses array
         vr::TrackedDevicePose_t poses[vr::k_unMaxTrackedDeviceCount];
         std::vector<float> positions;
-        vr::HmdVector3_t position;
-        //TODO: Get position of all trackers
 
         vrSystem->GetDeviceToAbsoluteTrackingPose(vr::TrackingUniverseOrigin::TrackingUniverseStanding,
                                                   0,
@@ -86,6 +84,19 @@ namespace trk {
 
         positions = getPositionsFromPose(poses);
         memcpy(data, positions.data(), size);
+    }
+
+    void VrSystem::updatePosesWithRotation(int size, float *data) {
+        vr::TrackedDevicePose_t poses[vr::k_unMaxTrackedDeviceCount];
+        std::vector<float> transforms;
+
+        vrSystem->GetDeviceToAbsoluteTrackingPose(vr::TrackingUniverseOrigin::TrackingUniverseStanding,
+                                                  0,
+                                                  poses,
+                                                  vr::k_unMaxTrackedDeviceCount);
+
+        transforms = getTransformsAsVector(poses);
+        memcpy(data, transforms.data(), size);
     }
 
     std::vector<float> VrSystem::getPositionsFromPose(vr::TrackedDevicePose_t *poses) {
@@ -99,6 +110,18 @@ namespace trk {
         return trackerPositions;
     }
 
+    std::vector<float> VrSystem::getTransformsAsVector(vr::TrackedDevicePose_t *poses) {
+        std::vector<float> transformsVector;
+        for (uint32_t i : trackerIndexes) {
+            vr::HmdMatrix34_t mat = poses[i].mDeviceToAbsoluteTracking;
+            for (int j = 0; j < 3; ++j) {
+                for (int k = 0; k < 4; ++k) {
+                    transformsVector.push_back(mat.m[j][k]);
+                }
+            }
+        }
+        return transformsVector;
+    }
 
     bool VrSystem::isValidSetUp() {
         /*
@@ -111,8 +134,12 @@ namespace trk {
         return false;
     }
 
-    int VrSystem::getSizeOfVector() {
-        return nTrackers * 3 * sizeof(double);
+    int VrSystem::getSizeOfVector(bool rotation = false) {
+        if(rotation){
+            //if rotation is enabled pass whole transform matrix to unity
+            return nTrackers * 12 * sizeof(float); //numberOfTrackers * rigidTransformMatrixSize * sizeOfFloat
+        }
+        return nTrackers * 3 * sizeof(float); //numberOfTrackers * positionVector * sizeofFloat
     }
 
     //testing functions

@@ -29,6 +29,7 @@ namespace trk {
         float playAreaY;
 
         std::vector<float> getPositionsFromPose(vr::TrackedDevicePose_t poses[]);
+        std::vector<float> getTransformsAsVector(vr::TrackedDevicePose_t poses[]);
 
         //testing functions
         void printPoseToDebug(vr::HmdVector3_t pos);
@@ -43,10 +44,11 @@ namespace trk {
         //getters & setters
         Vector3 getPlayArea();
         void updatePoses(int size, float *data);
+        void updatePosesWithRotation(int size, float *data);
         int getNumberOfTrackers(){return trackersDetected;}
         int getNumberOfBaseStations(){return baseStationsDetected;}
         bool isValidSetUp();
-        int getSizeOfVector();
+        int getSizeOfVector(bool rotation);
 
         //testing functions
     };
