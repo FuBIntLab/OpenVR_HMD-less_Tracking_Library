@@ -20,7 +20,7 @@ int trk::getNumberOfTrackers() {
     return app.getNumberOfTrackers();
 }
 void trk::updatePositions(int size, float *data, bool rotation = false) {
-    if(rotation){
+    if(!rotation){
         app.updatePoses(size, data);
     }else{
         app.updatePosesWithRotation(size,data);

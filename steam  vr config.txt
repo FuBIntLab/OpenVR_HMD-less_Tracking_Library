@@ -13,10 +13,6 @@ add to C:\Steam\config\steamvr.vrsettings
       "allowSupersampleFiltering" : false,
       "enableHomeApp" : false,
       "forcedDriver" : "null",
-      "installID" : "7473257255079405147",
-      "lastVersionNotice" : "1.24.6",
-      "lastVersionNoticeDate" : "1664832160",
-      "mirrorViewGeometry" : "1387 675 2272 1270",
       "showAdvancedSettings" : true,
       "showMirrorView" : false
 },
