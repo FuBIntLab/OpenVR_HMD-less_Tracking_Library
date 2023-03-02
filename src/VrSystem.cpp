@@ -114,9 +114,9 @@ namespace trk {
         std::vector<float> transformsVector;
         for (uint32_t i : trackerIndexes) {
             vr::HmdMatrix34_t mat = poses[i].mDeviceToAbsoluteTracking;
-            for (int j = 0; j < 3; ++j) {
-                for (int k = 0; k < 4; ++k) {
-                    transformsVector.push_back(mat.m[j][k]);
+            for (int j = 0; j < 4; ++j) {
+                for (int k = 0; k < 3; ++k) {
+                    transformsVector.push_back(mat.m[k][j]);
                 }
             }
         }
