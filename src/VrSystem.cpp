@@ -7,10 +7,10 @@
 namespace trk {
     //api control
     void VrSystem::initVrSystem(int numberOfPlayers, int numberOfBases) {
-        debugPrint("VrSystem ON:");
         nTrackers = numberOfPlayers;
         nBaseStations = numberOfBases;
 
+        //turn on the OpenVR application
         vr::HmdError initErr;
         vrSystem = vr::VR_Init(
                 &initErr,
@@ -22,8 +22,6 @@ namespace trk {
 
         chaperone = vr::VRChaperone();
         chaperone->GetPlayAreaSize(&playAreaX, &playAreaY);
-
-        debugPrint("Play Area: ("+ std::to_string(playAreaX) + " , " + std::to_string(playAreaY) +") ");
 
         //Searches fot trackers in the system from hmd 0 to maxTrackedDeviceCount and saves the indexes to a vector
         for (uint32_t index = vr::k_unTrackedDeviceIndex_Hmd; index< vr::k_unMaxTrackedDeviceCount; index++) {
@@ -42,10 +40,6 @@ namespace trk {
                 baseStationsDetected++;
             }
         }
-        debugPrint("Tracker indexes:");
-        for(uint32_t i : trackerIndexes){
-            debugPrint("\t" + std::to_string(i));
-        }
     }
 
     void VrSystem::shutdownVrSystem() {
@@ -63,6 +57,7 @@ namespace trk {
     }
 
     //getters and setters
+
     Vector3 VrSystem::getPlayArea() {
         return Vector3{playAreaX, 0, playAreaY};
     }
