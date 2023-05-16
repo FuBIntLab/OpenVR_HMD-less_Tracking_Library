@@ -3,9 +3,9 @@
 //
 #pragma once
 
-#include <windows.h>
-#include <debugapi.h>
 #include <string>
+#include <vector>
+#include "../openvr/includes/openvr.h"
 
 namespace trk{
     struct Vector3{
@@ -15,13 +15,8 @@ namespace trk{
 
         static Vector3 zero();
     };
+    std::vector<float> getQuaternionFromMatrix(vr::HmdMatrix34_t mat);
+    std::vector<float> getPosAndRotation(vr::TrackedDevicePose_t* poses, std::vector<uint32_t> trackerIndexes);
 
-    struct Tracker{
-        uint32_t id;
-        Vector3 pos;
-        void setPosition(float x, float y, float z);
-
-    };
-
-    void debugPrint(std::string msg);
+   
 }

@@ -19,18 +19,10 @@ int trk::getNumberOfBaseStations() {
 int trk::getNumberOfTrackers() {
     return app.getNumberOfTrackers();
 }
-void trk::updatePositions(int size, float *data, bool rotation = false) {
-    if(!rotation){
-        app.updatePoses(size, data);
-    }else{
-        app.updatePosesWithRotation(size,data);
-    }
-
+void trk::updatePositions(int size, float *data) {
+    app.updatePoses(size, data);
 }
 
-int trk::getSize(bool rotation) {
-    return app.getSizeOfVector(rotation);
-}
 
 
 
