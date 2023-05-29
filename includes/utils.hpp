@@ -17,6 +17,6 @@ namespace trk{
     };
     std::vector<float> getQuaternionFromMatrix(vr::HmdMatrix34_t mat);
     std::vector<float> getPosAndRotation(vr::TrackedDevicePose_t* poses, std::vector<uint32_t> trackerIndexes);
-
+    vr::HmdMatrix33_t transposeRotation(vr::HmdMatrix34_t mat);
    
 }

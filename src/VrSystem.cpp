@@ -69,7 +69,7 @@ namespace trk {
         vr::TrackedDevicePose_t poses[vr::k_unMaxTrackedDeviceCount];
         std::vector<float> positions;
 
-        vrSystem->GetDeviceToAbsoluteTrackingPose(vr::TrackingUniverseOrigin::TrackingUniverseStanding,
+        vrSystem->GetDeviceToAbsoluteTrackingPose(vr::TrackingUniverseOrigin::TrackingUniverseRawAndUncalibrated,
                                                   0,
                                                   poses,
                                                   vr::k_unMaxTrackedDeviceCount);
