@@ -6,6 +6,11 @@
 
 namespace trk {
     //api control
+    VrSystem::VrSystem() {
+        vrSystem = nullptr;
+        chaperone = nullptr;
+    }
+
     void VrSystem::initVrSystem(int numberOfPlayers, int numberOfBases) {
         nTrackers = numberOfPlayers;
         nBaseStations = numberOfBases;
@@ -27,14 +32,8 @@ namespace trk {
         for (uint32_t index = vr::k_unTrackedDeviceIndex_Hmd; index< vr::k_unMaxTrackedDeviceCount; index++) {
             vr::TrackedDeviceClass trackedClass = vrSystem->GetTrackedDeviceClass(index);
             if(trackedClass == vr::TrackedDeviceClass::TrackedDeviceClass_GenericTracker){
-                Tracker currentTracker{index,Vector3::zero()};
-                trackers.push_back(currentTracker);
-
-                //temp----
                 trackersDetected++;
                 trackerIndexes.push_back(index);
-                //--------
-
             }
             if(trackedClass == vr::TrackedDeviceClass::TrackedDeviceClass_TrackingReference){
                 baseStationsDetected++;
@@ -48,9 +47,6 @@ namespace trk {
         nBaseStations = 0;
         trackersDetected = 0;
         baseStationsDetected = 0;
-        trackers.clear();
-
-        //temp ---
         trackerIndexes.clear();
         //--------
         vr::VR_Shutdown();
@@ -62,39 +58,27 @@ namespace trk {
         return Vector3{playAreaX, 0, playAreaY};
     }
 
+    /*
+    in:
+     size: Size of the array to fill
+     *data: float array to fill
+    */
     void VrSystem::updatePoses(int size, float *data) {
-        /*
-         * in:
-         *      size: Size of the array to fill
-         *      *data: float array to fill
-         */
+       
         //poses array
         vr::TrackedDevicePose_t poses[vr::k_unMaxTrackedDeviceCount];
         std::vector<float> positions;
 
-        vrSystem->GetDeviceToAbsoluteTrackingPose(vr::TrackingUniverseOrigin::TrackingUniverseStanding,
+        vrSystem->GetDeviceToAbsoluteTrackingPose(vr::TrackingUniverseOrigin::TrackingUniverseRawAndUncalibrated,
                                                   0,
                                                   poses,
                                                   vr::k_unMaxTrackedDeviceCount);
 
-        positions = getPositionsFromPose(poses);
+        positions = trk::getPosAndRotation(poses, trackerIndexes);
         memcpy(data, positions.data(), size);
     }
 
-    void VrSystem::updatePosesWithRotation(int size, float *data) {
-        vr::TrackedDevicePose_t poses[vr::k_unMaxTrackedDeviceCount];
-        std::vector<float> transforms;
-
-        vrSystem->GetDeviceToAbsoluteTrackingPose(vr::TrackingUniverseOrigin::TrackingUniverseStanding,
-                                                  0,
-                                                  poses,
-                                                  vr::k_unMaxTrackedDeviceCount);
-
-        transforms = getTransformsAsVector(poses);
-        memcpy(data, transforms.data(), size);
-    }
-
-    std::vector<float> VrSystem::getPositionsFromPose(vr::TrackedDevicePose_t *poses) {
+    std::vector<float> VrSystem::getPositionsFromPose(vr::TrackedDevicePose_t poses[]) {
         std::vector<float> trackerPositions;
         for(uint32_t i : trackerIndexes){
             vr::HmdMatrix34_t mat = poses[i].mDeviceToAbsoluteTracking;
@@ -105,19 +89,6 @@ namespace trk {
         return trackerPositions;
     }
 
-    std::vector<float> VrSystem::getTransformsAsVector(vr::TrackedDevicePose_t *poses) {
-        std::vector<float> transformsVector;
-        for (uint32_t i : trackerIndexes) {
-            vr::HmdMatrix34_t mat = poses[i].mDeviceToAbsoluteTracking;
-            for (int j = 0; j < 4; ++j) {
-                for (int k = 0; k < 3; ++k) {
-                    transformsVector.push_back(mat.m[k][j]);
-                }
-            }
-        }
-        return transformsVector;
-    }
-
     bool VrSystem::isValidSetUp() {
         /*
          * Returns true if the given number of base stations are detected
@@ -125,27 +96,7 @@ namespace trk {
         if(baseStationsDetected == nBaseStations && trackersDetected == nTrackers){
             return true;
         }
-        debugPrint("Check plugin configuration: Number of trackers or base stations are different from detected");
+        
         return false;
     }
-
-    int VrSystem::getSizeOfVector(bool rotation = false) {
-        if(rotation){
-            //if rotation is enabled pass whole transform matrix to unity
-            return nTrackers * 12 * sizeof(float); //numberOfTrackers * rigidTransformMatrixSize * sizeOfFloat
-        }
-        return nTrackers * 3 * sizeof(float); //numberOfTrackers * positionVector * sizeofFloat
-    }
-
-    //testing functions
-    void VrSystem::printPoseToDebug(vr::HmdVector3_t pos) {
-        //TODO: Print position of all trackers with ids to identify them
-        debugPrint("x: "+ std::to_string(pos.v[0])+
-        " y: "+ std::to_string(pos.v[1])+
-        " z: "+ std::to_string(pos.v[2])
-        );
-
-    }
-
-
 } // trk
