@@ -19,8 +19,8 @@ int trk::getNumberOfBaseStations() {
 int trk::getNumberOfTrackers() {
     return app.getNumberOfTrackers();
 }
-void trk::updatePositions(int size, float *data) {
-    app.updatePoses(size, data);
+void trk::updatePositions(float *data, bool invertAxis, bool flipXZ) {
+    app.updatePoses(data, invertAxis, flipXZ);
 }
 
 

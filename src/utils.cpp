@@ -10,23 +10,7 @@ namespace trk{
         return Vector3{0,0,0};
     }
 
-    vr::HmdMatrix33_t transposeRotation(vr::HmdMatrix34_t mat) {
-        vr::HmdMatrix33_t rot = vr::HmdMatrix33_t();
-        rot.m[0][0] = mat.m[0][0];
-        rot.m[0][1] = mat.m[1][0];
-        rot.m[0][2] = mat.m[2][0];
-
-        rot.m[1][0] = mat.m[0][1];
-        rot.m[1][1] = mat.m[1][1];
-        rot.m[1][2] = mat.m[2][1];
-
-        rot.m[2][0] = mat.m[0][2];
-        rot.m[2][1] = mat.m[1][2];
-        rot.m[2][2] = mat.m[2][2];
-        return  vr::HmdMatrix33_t();
-    }
-
-    std::vector<float> getQuaternionFromMatrix(vr::HmdMatrix34_t mat) {
+    std::vector<float> getQuaternionFromMatrix(vr::HmdMatrix34_t mat, bool invertAxis, bool flipXZ) {
         std::vector<float> quaternion;
         float w, x, y, z;
        //vr::HmdMatrix33_t mat = transposeRotation(m);
@@ -39,10 +23,6 @@ namespace trk{
         y = copysign(y, mat.m[0][2] - mat.m[2][0]);
         z = copysign( z, mat.m[1][0] - mat.m[0][1]);
         
-        //w = sqrtf(1 + mat.m[0][0] + mat.m[1][1] + mat.m[2][2]);
-        //x = (mat.m[2][1] - mat.m[1][2])/ (4 * w);
-        //y = (mat.m[0][2] - mat.m[2][0]) / (4 * w);
-        //z = (mat.m[1][0] - mat.m[0][1]) / (4 * w);
         quaternion.push_back(x);
         quaternion.push_back(y);
         quaternion.push_back(z);
@@ -50,11 +30,11 @@ namespace trk{
         return quaternion;
     }
 
-    std::vector<float> getPosAndRotation(vr::TrackedDevicePose_t* poses, std::vector<uint32_t> trackerIndexes) {
+    std::vector<float> getPosAndRotation(vr::TrackedDevicePose_t* poses, std::vector<uint32_t> trackerIndexes, bool invertAxis, bool flipXZ ) {
         std::vector<float> positionsQuaternions;
         for (uint32_t i : trackerIndexes) {
             vr::HmdMatrix34_t mat = poses[i].mDeviceToAbsoluteTracking;
-            std::vector<float> quat = getQuaternionFromMatrix(mat);
+            std::vector<float> quat = getQuaternionFromMatrix(mat, invertAxis, flipXZ);
             positionsQuaternions.push_back(mat.m[0][3]);
             positionsQuaternions.push_back(mat.m[1][3]);
             positionsQuaternions.push_back(mat.m[2][3]);
