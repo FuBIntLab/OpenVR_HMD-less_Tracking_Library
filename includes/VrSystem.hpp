@@ -21,7 +21,7 @@ namespace trk {
         void shutdownVrSystem();
 
         //getters & setters
-        void updatePoses(float* data, bool invertAxis, bool flipXZ);
+        void updatePoses(int size, float* data, bool invertX, bool invertZ, bool flipXZ);
         int getNumberOfTrackers() { return trackersDetected; }
         int getNumberOfBaseStations() { return baseStationsDetected; }
 

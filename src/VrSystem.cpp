@@ -51,10 +51,9 @@ namespace trk {
     //getters and setters
     /*
     in:
-     size: Size of the array to fill
      *data: float array to fill
     */
-    void VrSystem::updatePoses(float *data, bool invertAxis, bool flipXZ) {
+    void VrSystem::updatePoses(int size, float *data, bool invertX, bool invertZ, bool flipXZ) {
        
         //poses array
         vr::TrackedDevicePose_t poses[vr::k_unMaxTrackedDeviceCount];
@@ -65,7 +64,7 @@ namespace trk {
                                                   poses,
                                                   vr::k_unMaxTrackedDeviceCount);
 
-        positions = trk::getPosAndRotation(poses, trackerIndexes, invertAxis,flipXZ);
-        memcpy(data, positions.data(), nTrackers * 7);
+        positions = trk::getPosAndRotation(poses, trackerIndexes, invertX, invertZ, flipXZ);
+        memcpy(data, positions.data(), size);
     }
 } // trk

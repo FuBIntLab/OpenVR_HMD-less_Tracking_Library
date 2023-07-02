@@ -15,6 +15,6 @@ namespace trk{
 
         static Vector3 zero();
     };
-    std::vector<float> getQuaternionFromMatrix(vr::HmdMatrix34_t mat, bool invertAxis, bool flipXZ);
-    std::vector<float> getPosAndRotation(vr::TrackedDevicePose_t* poses, std::vector<uint32_t> trackerIndexes, bool invertAxis, bool flipXZ); 
+    std::vector<float> getQuaternionFromMatrix(vr::HmdMatrix34_t mat);
+    std::vector<float> getPosAndRotation(vr::TrackedDevicePose_t* poses, std::vector<uint32_t> trackerIndexes, bool invertX, bool invertZ, bool flipXZ); 
 }

@@ -10,10 +10,9 @@ namespace trk{
         return Vector3{0,0,0};
     }
 
-    std::vector<float> getQuaternionFromMatrix(vr::HmdMatrix34_t mat, bool invertAxis, bool flipXZ) {
+    std::vector<float> getQuaternionFromMatrix(vr::HmdMatrix34_t mat) {
         std::vector<float> quaternion;
         float w, x, y, z;
-       //vr::HmdMatrix33_t mat = transposeRotation(m);
         
         w = sqrt( std::max( 0.f, 1 + mat.m[0][0] + mat.m[1][1] + mat.m[2][2] ) ) / 2;
         x = sqrt( std::max( 0.f, 1 + mat.m[0][0] - mat.m[1][1] - mat.m[2][2] ) ) / 2;
@@ -30,11 +29,42 @@ namespace trk{
         return quaternion;
     }
 
-    std::vector<float> getPosAndRotation(vr::TrackedDevicePose_t* poses, std::vector<uint32_t> trackerIndexes, bool invertAxis, bool flipXZ ) {
+    std::vector<float> getPosAndRotation(vr::TrackedDevicePose_t* poses, std::vector<uint32_t> trackerIndexes, bool invertX, bool invertZ, bool flipXZ ) {
         std::vector<float> positionsQuaternions;
         for (uint32_t i : trackerIndexes) {
             vr::HmdMatrix34_t mat = poses[i].mDeviceToAbsoluteTracking;
-            std::vector<float> quat = getQuaternionFromMatrix(mat, invertAxis, flipXZ);
+            //apply bools
+            if (invertX) {
+                mat.m[0][0] = -mat.m[0][0];
+                mat.m[0][1] = -mat.m[0][1];
+                mat.m[0][2] = -mat.m[0][2];
+                mat.m[0][3] = -mat.m[0][3];
+            }
+            if (invertZ) {
+                mat.m[2][0] = -mat.m[2][0];
+                mat.m[2][1] = -mat.m[2][1];
+                mat.m[2][2] = -mat.m[2][2];
+                mat.m[2][3] = -mat.m[2][3];
+            }
+            if (flipXZ) {
+                float tempXx, tempXy, tempXz, tempXw;
+                tempXx = mat.m[0][0];
+                tempXy = mat.m[0][1];
+                tempXz = mat.m[0][2];
+                tempXw = mat.m[0][3];
+
+                mat.m[0][0] = mat.m[2][0];
+                mat.m[0][1] = mat.m[2][1];
+                mat.m[0][2] = mat.m[2][2];
+                mat.m[0][3] = mat.m[2][3];
+
+                mat.m[2][0] = tempXx;
+                mat.m[2][1] = tempXy;
+                mat.m[2][2] = tempXz;
+                mat.m[2][3] = tempXw;
+            }
+
+            std::vector<float> quat = getQuaternionFromMatrix(mat);
             positionsQuaternions.push_back(mat.m[0][3]);
             positionsQuaternions.push_back(mat.m[1][3]);
             positionsQuaternions.push_back(mat.m[2][3]);
