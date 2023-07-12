@@ -25,7 +25,6 @@ public class PluginConnector : MonoBehaviour
     [SerializeField] private bool swapXZ;
     [SerializeField] private bool invertX;
     [SerializeField] private bool invertZ;
-    [SerializeField] private Vector3 unityWorldCenter; //unity world center !!NOT tracking center!!
 
     //list of players (filled from editor)
     [Header("Players")]
@@ -207,7 +206,7 @@ public class PluginConnector : MonoBehaviour
                     calibratedPos.y = !enableYAxis? 0 : (rawPos.y * calibrationScale) + yOffset;
                     calibratedPos.z = calibratedAxis.y;
 
-                    calibratedPos += unityWorldCenter;
+                    calibratedPos += calibrationCenter;
 
                     players[i].GetComponent<PlayerMovement>().setPosition(calibratedPos);
                     playersPositionsText[i].text = Vector3ToString(calibratedPos);

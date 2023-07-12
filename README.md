@@ -1,1 +1,1 @@
-# OpenVR_HMD-less_Tracking_Library
+# OpenVR HMD-less Tracking Library
